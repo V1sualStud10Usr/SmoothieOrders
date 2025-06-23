@@ -4,7 +4,7 @@
 import streamlit as st
 import datetime
 
-from snowflake.snowpark.context   import get_active_session
+##from snowflake.snowpark.context   import get_active_session
 from snowflake.snowpark.functions import col
 from snowflake.snowpark.functions import when_matched
 
@@ -13,7 +13,9 @@ timestamp = datetime.datetime.now().strftime("%Y%m%d_%Hh%Mm%Ss")
 st.title(f":cup_with_straw: Pending Smoothie Orders Today:cup_with_straw: {st.__version__}")
 st.write(f""" Orders that need to be filled: {timestamp} """ )
 
-session = get_active_session()
+cnx = st.connection("smothieConnStr","snowflake")
+session = cnx.session()
+###session = get_active_session()
 df = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect()
 ##obj=st.dataframe(data=df, use_container_width=True, key='DefaultOrders')
 
